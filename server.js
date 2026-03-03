@@ -21,9 +21,7 @@ app.use("/api/items", require("./routes/itemRoutes"));
 app.use("/api/doubts", require("./routes/doubtRoutes"));
 app.use("/api/career", require("./routes/careerRoutes"));
 
-app.get("/", (req, res) => {
-  res.send("Campus Connect API Running 🚀");
-});
+
 
 const PORT = process.env.PORT || 5000;
 
@@ -35,7 +33,7 @@ const path = require("path");
 
 app.use(express.static(path.join(__dirname)));
 app.use("/api/events", require("./routes/eventRoutes"));
-app.use("/api/events", require("./routes/eventRoutes"));
+
 app.use("/api/career", require("./routes/careerRoutes"));
 app.use("/api/career", careerRoutes);
 app.use("/api/admin", require("./routes/adminRoutes"));
@@ -43,3 +41,7 @@ app.use("/uploads", express.static("uploads"));
 const codingRoutes = require("./routes/codingRoutes");
 app.use("/api/coding", codingRoutes);
 app.use("/api/coding", require("./routes/codingRoutes"));
+
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
