@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Connect Pro</title>
+<script src="https://unpkg.com/monaco-editor@0.34.1/min/vs/loader.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root{
+  --primary:#6366f1;
+  --secondary:#10b981;
+  --accent:#f59e0b;
+
+  --bg:#0f172a;
+  --card:#1e293b;
+  --text:#f1f5f9;
+  --muted:#94a3b8;
+  --glass: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.08);
+}
+
+/* 🌞 PREMIUM LIGHT MODE */
+body.light-mode{
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+}
+
+/* Main background */
+body.light-mode{
+  background: linear-gradient(180deg, #f8fafc, #eef2f7);
+}
+
+/* Sidebar */
+body.light-mode aside{
+  background: #ffffff;
+  border-right: 1px solid #e2e8f0;
+}
+
+/* Cards */
+body.light-mode .card,
+body.light-mode .product,
+body.light-mode .about-card,
+body.light-mode .team-member{
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+  backdrop-filter: none;
+}
+
+/* Remove background video */
+body.light-mode #bgVideo{
+  display: none;
+}
+
+/* Buttons */
+body.light-mode button.primary{
+  background: linear-gradient(135deg,#6366f1,#4f46e5);
+  box-shadow: 0 6px 15px rgba(79,70,229,0.3);
+}
+
+/* Headings */
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3{
+  color: #0f172a;
+}
+
+/* Text */
+body.light-mode p{
+  color: #475569;
+}
+
+
+
+
+*{
+  box-sizing:border-box;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  margin:0;
+  padding:0;
+}
+
+body{
+  display:flex;
+  background: var(--bg);
+  color:var(--text);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* SIDEBAR */
+aside{
+  width:260px;
+  background:#0b1220;
+  padding:30px 20px;
+  height:100vh;
+  position:fixed;
+  border-right:1px solid var(--border);
+}
+
+.logo{
+  font-size:20px;
+  font-weight:700;
+  color:var(--primary);
+  margin-bottom:25px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.profile-box{
+  background:var(--glass);
+  padding:15px;
+  border-radius:14px;
+  margin-bottom:25px;
+  border:1px solid var(--border);
+}
+
+.profile-box h4{ margin-bottom:4px; }
+.profile-box p{ font-size:12px;color:var(--muted); }
+
+.logout-btn{
+  margin-top:10px;
+  background:#ef4444;
+  color:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.nav-btn{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  background:none;
+  font-weight:600;
+  margin-bottom:10px;
+  cursor:pointer;
+  text-align:left;
+  color:var(--muted);
+  transition:0.3s;
+}
+
+.nav-btn:hover{
+  background:var(--glass);
+  color:white;
+}
+
+.nav-btn.active{
+  background:linear-gradient(135deg,#6366f1,#4f46e5);
+  color:white;
+  box-shadow:0 0 15px rgba(99,102,241,0.6);
+}
+
+/* MAIN */
+main{
+  margin-left:260px;
+  padding:40px;
+  width:100%;
+}
+
+section{
+  display:none;
+  animation:fadeIn 0.4s ease;
+}
+
+section.active{ display:block; }
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+/* CARDS */
+.card{
+  background:var(--glass);
+  backdrop-filter:blur(12px);
+  padding:25px;
+  border-radius:20px;
+  border:1px solid var(--border);
+  margin-bottom:25px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* MARKETPLACE GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:20px;
+}
+
+.product{
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(12px);
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.08);
+  transition:0.3s;
+}
+
+.product:hover{
+  transform:translateY(-8px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.product-body{
+  padding:18px;
+}
+
+.product-body div{
+  font-size:18px;
+}
+
+
+.product:hover{
+  transform:translateY(-6px);
+  box-shadow:0 15px 35px rgba(0,0,0,0.4);
+}
+
+.product img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+}
+
+.product-body{
+  padding:15px;
+}
+
+.price{
+  color:var(--primary);
+  font-weight:700;
+  margin:6px 0;
+}
+
+/* BUTTONS */
+button.primary{
+  background:linear-gradient(135deg,#6366f1,#4f46e5);
+  color:white;
+  border:none;
+  padding:10px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+  transition:0.3s;
+}
+
+button.primary:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px rgba(99,102,241,0.6);
+}
+
+/* BADGES */
+.badge{
+  position:absolute;
+  top:12px;
+  left:12px;
+  padding:5px 12px;
+  border-radius:30px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.available{ background:#10b981;color:white; }
+.pending{ background:#f59e0b;color:white; }
+
+/* INPUTS */
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#0f172a;
+  color:white;
+}
+
+/* PROGRESS BAR */
+#progressBar{
+  background:linear-gradient(90deg,#6366f1,#4f46e5);
+  height:10px;
+  border-radius:5px;
+}
+
+/* VIDEO BG */
+video#bgVideo{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+  object-fit:cover;
+  z-index:-1;
+  opacity:0.15;
+}
+.market-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:30px;
+}
+
+.market-header h1{
+  font-size:28px;
+  font-weight:700;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:25px;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(8px);
+  z-index:999;
+}
+
+.modal-content{
+  background:#1e293b;
+  width:420px;
+  margin:120px auto;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,0.1);
+}
+.about-box{
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;
+  line-height:1.6;
+  font-size:15px;
+}
+
+.team-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+}
+.about-card{
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 35px 45px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  line-height: 1.8;
+  font-size: 16px;
+  color: #e2e8f0;
+}
+
+.about-card p{
+  margin-bottom: 18px;
+}
+
+.about-title{
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.team-member{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.08);
+  transition:0.3s;
+}
+
+.team-member:hover{
+  transform:translateY(-5px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.team-member img{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  object-fit:cover;
+  position:relative;
+  transition: all 0.4s ease;
+  border:3px solid transparent;
+  background: linear-gradient(#0f172a,#0f172a) padding-box,
+              linear-gradient(135deg,#4f46e5,#10b981,#f59e0b) border-box;
+}
+
+/* Hover Glow Effect */
+.team-member:hover img{
+  transform: scale(1.1);
+  box-shadow: 
+      0 0 20px rgba(79,70,229,0.7),
+      0 0 40px rgba(16,185,129,0.5),
+      0 0 60px rgba(245,158,11,0.4);
+}
+.profile-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.profile-avatar-small {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #4f46e5;
+  transition: 0.3s;
+}
+
+.profile-avatar-small:hover {
+  box-shadow: 0 0 15px #4f46e5;
+}
+
+.profile-name {
+  font-weight: 600;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 260px;
+  background: #1e293b;
+  color: white;
+  border-radius: 16px;
+  padding: 20px;
+  display: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  animation: fadeIn 0.3s ease;
+  z-index: 999;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.profile-avatar-large {
+  margin-left: 58px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;              /* 🔥 Important */
+  border: 3px solid #4f46e5;
+  box-shadow: 0 0 25px rgba(79,70,229,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 15px rgba(79,70,229,0.5); }
+  50% { box-shadow: 0 0 35px rgba(79,70,229,0.9); }
+  100% { box-shadow: 0 0 15px rgba(79,70,229,0.5); }
+
+
+}
+
+.profile-avatar-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;             /* 🔥 Important */
+  border-radius: 50%;
+}
+
+.profile-stats p {
+  font-size: 14px;
+  margin: 6px 0;
+  color: #cbd5e1;
+}
+
+.profile-dropdown button {
+  width: 100%;
+  margin-top: 15px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.profile-stats {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.stat-row .icon {
+  margin-right: 8px;
+}
+
+.stat-row span:nth-child(2) {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+</style>
+</head>
+
+<body>
+
+<aside>
+<div class="logo"><i class="fas fa-bolt"></i>CampusConnect</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+  <span>Theme</span>
+  <button onclick="toggleTheme()" class="primary">
+    🌙
+  </button>
+</div>
+
+<div class="profile-container">
+
+  <div class="profile-trigger" onclick="toggleProfileMenu()">
+    <img src="mem1.jpg" class="profile-avatar-small">
+    <span class="profile-name">Sahazad786</span>
+  </div>
+
+  <div class="profile-dropdown" id="profileDropdown">
+    <input type="file" id="profileInput" hidden onchange="uploadProfileImage()">
+
+<div class="profile-avatar-large" onclick="document.getElementById('profileInput').click()">
+  <img id="profileImageDisplay" src="default.png">
+</div>
+
+    <div class="profile-header">
+      
+      <h3 id="dropdownName"></h3>
+      <p id="dropdownEmail"></p>
+    </div>
+
+   <div class="profile-stats">
+
+  <div class="stat-row">
+    <span class="icon">✅</span>
+    <span>Completed Phases</span>
+    <span class="stat-value" id="completedCount"></span>
+  </div>
+
+  <div class="stat-row">
+    <span class="icon">💬</span>
+    <span>Doubts Answered</span>
+    <span class="stat-value" id="answeredCount"></span>
+  </div>
+
+  <div class="stat-row">
+    <span class="icon">🛒</span>
+    <span>Items Purchased</span>
+    <span class="stat-value" id="purchasedCount"></span>
+  </div>
+
+</div>
+
+
+    <button class="logout-btn" onclick="logout()">Logout</button>
+
+  </div>
+
+</div>
+
+
+<button class="nav-btn active" onclick="show('home',this)">Home</button>
+<button class="nav-btn" onclick="show('market',this)">Marketplace</button>
+<button class="nav-btn" onclick="show('doubts',this)">Doubts Hub</button>
+<button class="nav-btn" onclick="show('career',this)">Career Paths</button>
+<button class="nav-btn" onclick="show('coding',this)">
+   Coding Champ
+</button>
+
+<button class="nav-btn" onclick="show('about',this)">
+  About
+</button>
+
+</aside>
+
+<main>
+
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source src="pp.mp4" type="video/mp4">
+</video>
+
+<section id="home" class="active">
+<h1>Welcome Back 👋</h1>
+<br>
+<div class="card" id="eventCard">
+  Loading Event...
+</div>
+</section>
+
+<section id="market">
+  <div class="market-header">
+    <h1>Student Marketplace</h1>
+    <button class="primary" onclick="openModal()">+ Post Item</button>
+  </div>
+
+  <div id="products" class="grid"></div>
+</section>
+
+
+<section id="doubts">
+<h2>Ask a Doubt</h2>
+<div class="card">
+<textarea id="doubtInput" rows="3" placeholder="Type your academic question..."></textarea>
+<button class="primary" style="margin-top:10px" onclick="addDoubt()">Post</button>
+</div>
+<div id="doubtList"></div>
+</section>
+
+<section id="career">
+<h2>Career Roadmap</h2>
+
+<div class="card">
+  <div id="careerButtons"></div>
+  <br>
+  <div id="roadmapBox"></div>
+</div>
+
+<div style="margin-top:20px;">
+  <div >
+    <div id="progressBar"
+         style="height:10px;background:#4f46e5;width:0%;border-radius:5px;">
+    </div>
+  </div>
+  <p id="progressText"></p>
+</div>
+
+</section>
+<section id="coding">
+  <h1>🔥 Coding Champ</h1>
+<button class="nav-btn" onclick="show('leaderboard',this); loadLeaderboard();">
+  🏆 Leaderboard
+</button>
+<section id="leaderboard">
+  <h1>🏆 Coding Leaderboard</h1>
+  <div class="card">
+    <div id="leaderboardList"></div>
+  </div>
+</section>
+  <!-- PROBLEM LIST -->
+  <div class="card">
+    <h3>Problems</h3>
+    <div id="problemList"></div>
+  </div>
+
+  <!-- EDITOR SECTION -->
+  <div class="card" id="editorSection" style="display:none;">
+    <button onclick="goBack()" 
+      style="margin-bottom:15px;background:none;border:none;color:var(--primary);cursor:pointer;">
+      ← Back to Problems
+    </button>
+
+    <h3 id="problemTitle"></h3>
+    <p id="problemDescription" style="color:var(--muted); margin-bottom:15px;"></p>
+
+    <h4>Sample Input</h4>
+    <pre id="sampleInput" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px;"></pre>
+
+    <h4>Sample Output</h4>
+    <pre id="sampleOutput" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px;"></pre>
+
+    <select id="languageSelect" style="margin:15px 0;">
+      <option value="71">Python</option>
+      <option value="50">C</option>
+      <option value="62">Java</option>
+    </select>
+
+    <div id="editor" style="height:400px; border-radius:12px;"></div>
+
+    <button class="primary" onclick="submitCode()" style="margin-top:15px;">
+      Submit Code
+    </button>
+
+    <div id="resultBox" style="margin-top:15px; font-weight:700;"></div>
+  </div>
+</section>
+
+
+<section id="about">
+
+  <h2 class="about-title">🚀 About CampusConnect</h2>
+
+  <div class="about-card">
+    <p> CampusConnect is a full-stack student collaboration platform built to connect students through events, marketplace trading, doubt solving, and structured career roadmaps. </p> <p> The platform integrates real-time event countdowns, secure authentication, marketplace payment simulation, admin analytics dashboard, and personalized career progress tracking. </p> <p> Built using <strong>MERN Stack</strong> (MongoDB, Express, Node.js) with scalable architecture and modular backend design. </p>
+  </div>
+
+  <!-- TEAM SECTION MUST BE INSIDE ABOUT -->
+
+  <br><br>
+
+  <h2>👨‍💻 Meet Our Team</h2>
+  <br>
+
+  <div class="team-grid">
+
+    <div class="team-member">
+      <img src="mem1.jpeg">
+      <div>
+        <h3>Sahazad</h3>
+        <p>241FA04D82</p>
+        <small>Backend Architecture & Dashboard</small>
+      </div>
+    </div>
+
+    <div class="team-member">
+      <img src="mem2.jpeg">
+      <div>
+        <h3>Karishma</h3>
+        <p>241FA04F94</p>
+        <small>UI & User Experience</small>
+      </div>
+    </div>
+
+    <div class="team-member">
+      <img src="mem3.jpeg">
+      <div>
+        <h3>Manasvi</h3>
+        <p>241FA04567</p>
+        <small>Schema & Optimization</small>
+      </div>
+    </div>
+    
+
+    <div class="team-member">
+      <img src="mem4.jpeg">
+      <div>
+        <h3>Member 4</h3>
+        <p>241FA04094</p>
+        <small>Planning & Documentation</small>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<!-- MODALS -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<h3>Post New Item</h3>
+<input id="name" placeholder="Item Name">
+<input id="price" placeholder="Price">
+<input id="img" placeholder="Image URL">
+<button class="primary" style="margin-top:15px" onclick="addProduct()">Submit</button>
+<button style="margin-top:10px;border:none;background:none;color:red;cursor:pointer" onclick="closeModal()">Cancel</button>
+</div>
+</div>
+
+<div class="modal" id="qrModal">
+<div class="modal-content">
+<h3>Scan & Pay</h3>
+<img src="pp.jpeg" width="220">
+<br><br>
+<button class="primary" onclick="confirmPayment()">I Have Paid</button>
+<button style="margin-top:10px;border:none;background:none;color:red;cursor:pointer" onclick="closeQR()">Cancel</button>
+</div>
+</div>
+
+<script>
+let currentProblemId = null;
+
+async function loadProblems() {
+
+  const res = await fetch(`${API}/coding/problems`);
+  const problems = await res.json();
+
+  // Get accepted submissions of user
+  const subRes = await fetch(`${API}/coding/user-submissions`, {
+    headers: { "Authorization": token }
+  });
+
+  const submissions = await subRes.json();
+
+  document.getElementById("problemList").innerHTML =
+    problems.map(p => {
+
+      const solved = submissions.find(
+  s => s.problem.toString() === p._id.toString() && s.status === "Accepted"
+);
+
+
+      return `
+        <div style="padding:12px; border-bottom:1px solid var(--border); cursor:pointer;"
+             onclick="openProblem('${p._id}')">
+
+          <b>${solved ? "✅" : "⭕"} ${p.title}</b>
+
+          <div style="font-size:12px; color:var(--muted);">
+            Points: ${p.points}
+          </div>
+        </div>
+      `;
+    }).join("");
+}
+
+
+async function openProblem(id) {
+
+  currentProblemId = id;
+
+  document.getElementById("editorSection").style.display = "block";
+
+  const res = await fetch(`${API}/coding/problem/${id}`);
+  const problem = await res.json();
+
+  document.getElementById("problemTitle").innerText = problem.title;
+  document.getElementById("problemDescription").innerText = problem.description;
+
+ if(problem.testCases && problem.testCases.length > 0){
+  document.getElementById("sampleInput").innerText =
+    problem.testCases[0].input;
+
+  document.getElementById("sampleOutput").innerText =
+    problem.testCases[0].expectedOutput;
+}
+
+
+  const subRes = await fetch(`${API}/coding/submission/${id}`, {
+    headers: { "Authorization": token }
+  });
+
+  const submission = await subRes.json();
+
+  if (submission) {
+
+    editor.setValue(submission.code);
+
+    if (submission.status === "Accepted") {
+      document.getElementById("resultBox").innerHTML =
+        `<span style="color:#10b981">✅ Accepted</span>`;
+    } else {
+      document.getElementById("resultBox").innerHTML =
+        `<span style="color:#ef4444">❌ ${submission.status}</span>`;
+    }
+
+  } else {
+    editor.setValue("");
+    document.getElementById("resultBox").innerHTML = "";
+  }
+}
+
+async function submitCode(){
+
+  const language = document.getElementById("languageSelect").value;
+  const code = editor.getValue();
+
+  const res = await fetch(`${API}/coding/submit/${currentProblemId}`,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization": token
+    },
+    body: JSON.stringify({ language, code })
+  });
+
+  const data = await res.json();
+  const box = document.getElementById("resultBox");
+
+  if(data.status === "Accepted"){
+    box.innerHTML = `<span style="color:#10b981">✅ Accepted</span>`;
+  }
+
+  else if(data.status === "Compilation Error"){
+    box.innerHTML = `
+      <div style="color:#ef4444">
+        ❌ Compilation Error
+        <pre>${data.error}</pre>
+      </div>`;
+  }
+
+  else if(data.status === "Runtime Error"){
+    box.innerHTML = `
+      <div style="color:#ef4444">
+        💥 Runtime Error
+        <pre>${data.error}</pre>
+      </div>`;
+  }
+
+  else if(data.status === "Wrong Answer"){
+    box.innerHTML = `
+      <div style="color:#ef4444">
+        ❌ Wrong Answer <br>
+        Expected: ${data.expected} <br>
+        Your Output: ${data.output}
+      </div>`;
+  }
+
+  loadProblems();
+}
+
+function goBack(){
+  document.getElementById("editorSection").style.display = "none";
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("light-mode");
+
+  if(document.body.classList.contains("light-mode")){
+    localStorage.setItem("theme","light");
+  } else {
+    localStorage.setItem("theme","dark");
+  }
+}
+
+// Load saved theme on refresh
+window.onload = function(){
+  const savedTheme = localStorage.getItem("theme");
+
+  if(savedTheme === "light"){
+    document.body.classList.add("light-mode");
+  }
+};
+
+ async function uploadProfileImage(){
+  const file = document.getElementById("profileInput").files[0];
+
+  if(!file) return;
+
+  const formData = new FormData();
+  formData.append("profile", file);
+
+  const res = await fetch(`${API}/auth/upload-profile`,{
+    method:"PUT",
+    headers:{ "Authorization": token },
+    body: formData
+  });
+
+  const data = await res.json();
+
+  if(data.profileImage){
+    const imageUrl = "http://localhost:5000" + data.profileImage;
+
+    document.getElementById("profileImageDisplay").src = imageUrl;
+    document.querySelector(".profile-avatar-small").src = imageUrl;
+  }
+}
+
+
+  function toggleProfileMenu(){
+  const menu = document.getElementById("profileDropdown");
+  menu.style.display =
+    menu.style.display === "block" ? "none" : "block";
+}
+
+// Close when clicking outside
+window.onclick = function(e){
+  if(!e.target.closest(".profile-container")){
+    document.getElementById("profileDropdown").style.display = "none";
+  }
+}
+
+
+const token = localStorage.getItem("token");
+if(!token){ window.location.href = "login.html"; }
+
+const API = "/api";
+
+/* PROFILE */
+async function loadProfile() {
+  try {
+    const res = await fetch(`${API}/auth/me`, {
+      headers: { "Authorization": token }
+    });
+
+    if (!res.ok) {
+      logout();
+      return;
+    }
+
+    const user = await res.json();
+
+    // ====================
+    // BASIC INFO
+    // ====================
+    document.getElementById("dropdownName").innerText = user.name;
+    document.getElementById("dropdownEmail").innerText = user.email;
+
+    document.querySelector(".profile-name").innerText = user.name;
+
+    // ====================
+    // PROFILE IMAGE
+    // ====================
+    if (user.profileImage) {
+      const imageUrl = "http://localhost:5000" + user.profileImage;
+
+      document.getElementById("profileImageDisplay").src = imageUrl;
+
+      document.querySelector(".profile-avatar-small").src = imageUrl;
+    }
+
+    // ====================
+    // STATS
+    // ====================
+
+    // Completed Phases
+    const completedPhases =
+      user.progress?.filter(p => p.completed === true).length || 0;
+
+    document.getElementById("completedCount").innerText = completedPhases;
+
+    // Doubts Answered
+    document.getElementById("answeredCount").innerText =
+      user.doubtsAnswered || 0;
+
+    // Items Purchased
+    document.getElementById("purchasedCount").innerText =
+      user.itemsPurchased || 0;
+
+  } catch (err) {
+    console.log("Profile error:", err);
+    logout();
+  }
+}
+
+function logout(){
+  localStorage.removeItem("token");
+  window.location.href = "login.html";
+}
+
+/* ================= EVENTS ================= */
+
+async function loadEvent(){
+  try{
+    const res = await fetch(`${API}/events`);
+    const events = await res.json();
+
+    const now = new Date();
+    const upcomingEvents = events.filter(e => 
+      new Date(e.eventDate) > now
+    );
+
+    if(upcomingEvents.length === 0){
+      document.getElementById("eventCard").innerHTML = 
+        "<h3>No Upcoming Events 🎉</h3>";
+      return;
+    }
+
+    document.getElementById("eventCard").innerHTML =
+      upcomingEvents.map(event => `
+        <div style="margin-bottom:25px;">
+          <h3>🚀 ${event.title}</h3>
+          <p style="color:var(--muted)">
+            📅 ${new Date(event.eventDate).toDateString()} <br>
+            📍 ${event.location}
+          </p>
+
+          <div style="margin-top:10px;">
+            <h4>Event Starts In:</h4>
+            <div id="countdown-${event._id}"
+                 style="font-size:18px;font-weight:600;color:#4f46e5;margin-top:5px;">
+            </div>
+          </div>
+
+          <button class="primary"
+            style="margin-top:10px;"
+            onclick="window.location.href='${event.registrationLink || "event.html"}'">
+            Register Now
+          </button>
+        </div>
+      `).join("");
+
+    upcomingEvents.forEach(event => {
+      startCountdown(event.eventDate, `countdown-${event._id}`);
+    });
+
+  }catch{
+    document.getElementById("eventCard").innerHTML = "Failed to load events";
+  }
+}
+
+function startCountdown(date, elementId){
+  const eventTime = new Date(date).getTime();
+
+  const interval = setInterval(()=>{
+    const now = new Date().getTime();
+    const distance = eventTime - now;
+
+    if(distance < 0){
+      document.getElementById(elementId).innerHTML = "🎉 Event Started!";
+      clearInterval(interval);
+      return;
+    }
+
+    const days = Math.floor(distance/(1000*60*60*24));
+    const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+    const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+    const seconds = Math.floor((distance%(1000*60))/1000);
+
+    document.getElementById(elementId).innerHTML =
+      `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+  },1000);
+}
+
+/* ================= MARKETPLACE ================= */
+
+let selectedItem=null;
+
+async function fetchProducts(){
+  const res=await fetch(`${API}/items`);
+  const data=await res.json();
+  renderProducts(data);
+}
+
+function renderProducts(products) {
+  document.getElementById("products").innerHTML =
+    products.map(p => {
+
+      let badgeClass = "available";
+      let badgeText = "Available";
+      let button = "";
+
+      if(p.status === "pending"){
+        badgeClass = "pending";
+        badgeText = "Payment Pending";
+      }
+
+      if(p.status === "sold"){
+        badgeClass = "pending";
+        badgeText = "Sold";
+      }
+
+      if(p.status === "available"){
+        button = `<button class="primary" onclick="buyItem('${p._id}')">Buy</button>`;
+      }
+
+      return `
+        <div class="product">
+          <div class="badge ${badgeClass}">
+            ${badgeText}
+          </div>
+          <img src="${p.img || 'https://via.placeholder.com/300x200'}">
+          <div class="product-body">
+            <div style="font-weight:600">${p.title}</div>
+            <div class="price">₹ ${p.price}</div>
+            ${button}
+          </div>
+        </div>
+      `;
+    }).join("");
+}
+
+async function addProduct(){
+  const title = document.getElementById("name").value;
+  const priceVal = document.getElementById("price").value;
+  const imgVal = document.getElementById("img").value;
+
+  await fetch(`${API}/items`,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({ title,description:title,price:priceVal,img:imgVal })
+  });
+
+  closeModal();
+  fetchProducts();
+}
+
+function buyItem(id){ selectedItem=id; qrModal.style.display="block"; }
+function closeQR(){ qrModal.style.display="none"; }
+
+async function confirmPayment(){
+  await fetch(`${API}/items/${selectedItem}/pay`,{
+    method:"PUT",
+    headers:{
+      "Authorization": token
+    }
+  });
+
+  closeQR();
+  fetchProducts();
+}
+
+function openModal(){ modal.style.display="block"; }
+function closeModal(){ modal.style.display="none"; }
+
+/* ================= DOUBTS (FIXED) ================= */
+
+async function fetchDoubts(){
+  const res = await fetch(`${API}/doubts`);
+  const doubts = await res.json();
+
+  document.getElementById("doubtList").innerHTML =
+    doubts.map(d => `
+
+      <div class="card">
+
+        <b>Q:</b> ${d.question}
+        <br><br>
+
+        <input id="answer-${d._id}" placeholder="Write your answer...">
+        <button class="primary"
+          onclick="addAnswer('${d._id}')">
+          Answer
+        </button>
+
+        <div style="margin-top:15px;">
+          ${
+            (d.answers && d.answers.length > 0)
+            ? d.answers
+                .sort((a,b)=>b.votes-a.votes)
+                .map(a=>`
+                  <div style="margin-top:10px;padding:10px;border:1px solid #eee;border-radius:8px;">
+                    <b>${a.text}</b>
+                    <br>
+                    👍 ${a.votes}
+                    <button onclick="voteAnswer('${d._id}','${a._id}')">
+                      Upvote
+                    </button>
+                  </div>
+                `).join("")
+            : "<small style='color:gray'>No answers yet</small>"
+          }
+        </div>
+
+      </div>
+
+    `).join("");
+}
+
+async function addDoubt(){
+  const question = document.getElementById("doubtInput").value;
+
+  if(!question){
+    alert("Enter a question");
+    return;
+  }
+
+  const res = await fetch(`${API}/doubts`,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization": token
+    },
+    body:JSON.stringify({ question })
+  });
+
+  if(res.ok){
+    doubtInput.value = "";
+    fetchDoubts();
+  } else {
+    alert("Error posting doubt");
+  }
+}
+
+async function addAnswer(doubtId){
+  const input = document.getElementById(`answer-${doubtId}`);
+  const text = input.value;
+
+  if(!text){
+    alert("Enter answer");
+    return;
+  }
+
+  await fetch(`${API}/doubts/${doubtId}/answer`,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization": token
+    },
+    body:JSON.stringify({ text })
+  });
+
+  input.value = "";
+  fetchDoubts();
+}
+
+async function voteAnswer(doubtId, answerId){
+  await fetch(`${API}/doubts/${doubtId}/answer/${answerId}/vote`,{
+    method:"PUT",
+    headers:{
+      "Authorization": token
+    }
+  });
+
+  fetchDoubts();
+}
+
+/* ================= CAREER ================= */
+async function loadCareerButtons(){
+  const res = await fetch(`${API}/career`);
+  const careers = await res.json();
+
+  document.getElementById("careerButtons").innerHTML =
+    careers.map(c => `
+      <button class="primary"
+        onclick="loadCareer('${c.type}')">
+        ${c.name}
+      </button>
+    `).join("");
+}
+
+
+async function loadCareer(type){
+
+  const careerRes = await fetch(`${API}/career/${type}`);
+  const career = await careerRes.json();
+
+  if(!career || !career.phases){
+    document.getElementById("roadmapBox").innerHTML =
+      "<p>No phases available</p>";
+    return;
+  }
+
+  const userRes = await fetch(`${API}/auth/me`,{
+    headers:{ "Authorization": token }
+  });
+
+  const user = await userRes.json();
+  const userProgress = user.progress || [];
+
+  const phases = career.phases.sort((a,b)=>a.order-b.order);
+
+  document.getElementById("roadmapBox").innerHTML =
+    phases.map((phase,i)=>{
+
+      const completed = userProgress.find(
+  p => p.careerId.toString() === phase._id.toString() && p.completed === true
+);
+
+
+      return `
+        <div class="card">
+
+          <h3>Phase ${i+1}: ${phase.title}</h3>
+
+          <p>Difficulty: ${phase.difficulty || "Not set"}</p>
+          <p>Duration: ${phase.estimatedTime || "Not set"}</p>
+
+          <div style="display:flex; gap:15px; margin-top:10px;">
+
+            <a href="${phase.youtubeLink}" target="_blank"
+              style="width:40px;height:40px;border-radius:50%;
+              background:red;color:white;display:flex;
+              justify-content:center;align-items:center;">
+              <i class="fab fa-youtube"></i>
+            </a>
+
+            <a href="${phase.resourceLink}" target="_blank"
+              style="width:40px;height:40px;border-radius:50%;
+              background:#04AA6D;color:white;display:flex;
+              justify-content:center;align-items:center;">
+              W3
+            </a>
+
+          </div>
+
+          <div style="margin-top:15px;">
+            <input type="checkbox"
+              ${completed ? "checked" : ""}
+              onchange="markCompleted('${phase._id}','${type}')">
+            Mark as Completed
+          </div>
+
+        </div>
+      `
+    }).join("");
+
+  updateProgress(phases, userProgress);
+}
+
+
+function updateProgress(phases, userProgress){
+
+  const total = phases.length;
+
+  const completedCount = phases.filter(phase =>
+    userProgress.find(p =>
+      p.careerId.toString() === phase._id.toString() && p.completed
+    )
+  ).length;
+
+  const percent = total === 0 ? 0 :
+    Math.floor((completedCount/total)*100);
+
+  document.getElementById("progressBar").style.width = percent + "%";
+  document.getElementById("progressText").innerText =
+    percent + "% Completed";
+}
+/* ================= COMPLETE PHASE ================= */
+
+async function markCompleted(id,type){
+
+  try{
+    const res = await fetch(`${API}/career/complete/${id}`,{
+      method:"PUT",
+      headers:{ "Authorization": token }
+    });
+
+    if(res.ok){
+      loadCareer(type);
+    } else {
+      console.log("Failed to update");
+    }
+
+  }catch(err){
+    console.log("Error updating progress");
+  }
+}
+
+
+/* NAV */
+function show(id,btn){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+}
+async function loadLeaderboard() {
+  try {
+
+    const res = await fetch(`${API}/coding/leaderboard`);
+    const users = await res.json();
+
+    if (!users || users.length === 0) {
+      document.getElementById("leaderboardList").innerHTML =
+        "<p>No users yet</p>";
+      return;
+    }
+
+    document.getElementById("leaderboardList").innerHTML =
+      users.map((user, index) => {
+
+        let medal = "";
+        if(index === 0) medal = "🥇";
+        else if(index === 1) medal = "🥈";
+        else if(index === 2) medal = "🥉";
+        else medal = `#${index + 1}`;
+
+        return `
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:12px;
+            border-bottom:1px solid var(--border);
+          ">
+            <div>
+              <b>${medal} ${user.name}</b>
+            </div>
+            <div style="color:var(--primary); font-weight:700;">
+              ${user.totalScore || 0} pts
+            </div>
+          </div>
+        `;
+      }).join("");
+
+  } catch (err) {
+    document.getElementById("leaderboardList").innerHTML =
+      "<p>Error loading leaderboard</p>";
+  }
+  console.log(users);
+}
+
+/* INITIAL LOAD */
+loadProfile();
+loadEvent();
+fetchProducts();
+fetchDoubts();
+loadCareerButtons();
+loadProblems();
+loadLeaderboard();
+let editor;
+
+window.addEventListener("DOMContentLoaded", function () {
+
+  require.config({
+    paths: { vs: 'https://unpkg.com/monaco-editor@0.34.1/min/vs' }
+  });
+
+  require(['vs/editor/editor.main'], function () {
+
+    editor = monaco.editor.create(
+      document.getElementById('editor'),
+      {
+        value: '',
+        language: 'python',
+        theme: 'vs-dark',
+        automaticLayout: true,
+        fontSize: 14,
+        minimap: { enabled: false }
+      }
+    );
+
+    document.getElementById("languageSelect")
+      .addEventListener("change", function () {
+
+        const langMap = {
+          "71": "python",
+          "50": "c",
+          "62": "java"
+        };
+
+        monaco.editor.setModelLanguage(
+          editor.getModel(),
+          langMap[this.value]
+        );
+
+      });
+
+  });
+
+});
+
+
+</script>
+
+
+</body>
+</html>
