@@ -118,5 +118,21 @@ router.put("/upload-profile", auth, upload.single("profile"), async (req,res)=>{
     res.status(500).json({ message: "Upload failed" });
   }
 });
+const passport = require("passport");
 
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { session: false }),
+  (req, res) => {
+
+    const token = generateToken(req.user._id);
+
+    res.redirect(`/login.html?token=${token}`);
+  }
+);
 module.exports = router;
