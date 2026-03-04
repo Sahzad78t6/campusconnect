@@ -12,29 +12,40 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
 
-        const email = profile.emails?.[0]?.value;
+        const email = profile.emails[0].value;
 
         let user = await User.findOne({ email });
 
         if (!user) {
-          user = new User({
+          user = await User.create({
             name: profile.displayName,
             email: email,
             googleId: profile.id,
-            password: "google-oauth",
-            role: "user"
+            password: "google-oauth"
           });
-
-          await user.save();
         }
 
-        done(null, user);
+        return done(null, user);
 
       } catch (err) {
-        console.log("Google Auth Error:", err);
+        console.log(err);
         done(err, null);
       }
     }
   )
 );
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
+
 module.exports = passport;
