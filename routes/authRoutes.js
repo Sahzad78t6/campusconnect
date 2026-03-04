@@ -127,19 +127,16 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/register.html" }),
-  async (req, res) => {
+  passport.authenticate("google", { failureRedirect: "/login.html" }),
+  (req, res) => {
 
     const token = jwt.sign(
-      {
-        id: req.user._id,
-        role: req.user.role
-      },
+      { id: req.user._id },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
 
-    res.redirect(`/login.html?token=${token}`);
+    res.redirect(`/index.html?token=${token}`);
   }
 );
 module.exports = router;
