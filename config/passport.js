@@ -4,31 +4,45 @@ const User = require("../models/User");
 
 passport.use(
   new GoogleStrategy(
-{
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://campusconnect-bcqq.onrender.com/api/auth/google/callback"
-},
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "https://campusconnect-bcqq.onrender.com/api/auth/google/callback"
+    },
     async (accessToken, refreshToken, profile, done) => {
       try {
 
-        const email = profile.emails[0].value;
+        let user = await User.findOne({ googleId: profile.id });
 
-        let user = await User.findOne({ email });
-
-        if (!user) {
-          user = await User.create({
-            name: profile.displayName,
-            email: email,
-            password: "google-oauth",
-            profileImage: profile.photos[0].value
-          });
+        // If user already exists
+        if (user) {
+          return done(null, user);
         }
 
-        return done(null, user);
+        // Check if email already registered
+        const existingUser = await User.findOne({
+          email: profile.emails[0].value
+        });
+
+        if (existingUser) {
+          existingUser.googleId = profile.id;
+          await existingUser.save();
+          return done(null, existingUser);
+        }
+
+        // Register new user
+        const newUser = await User.create({
+          name: profile.displayName,
+          email: profile.emails[0].value,
+          googleId: profile.id,
+          password: "google-oauth"
+        });
+
+        done(null, newUser);
 
       } catch (err) {
-        return done(err, null);
+        console.log(err);
+        done(err, null);
       }
     }
   )

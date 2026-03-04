@@ -136,7 +136,12 @@ router.get(
   }
 );
 router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/login.html"
+  }),
+  (req, res) => {
+    res.redirect("/index.html");
+  }
 );
 module.exports = router;
