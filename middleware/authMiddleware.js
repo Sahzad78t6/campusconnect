@@ -24,13 +24,3 @@ module.exports = async function (req, res, next) {
     res.status(400).json({ message: "Invalid Token" });
   }
 };
-app.use(
-  session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
