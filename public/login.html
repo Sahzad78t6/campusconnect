@@ -173,7 +173,7 @@
       Continue with Google
     </button>
   </a>
-<p>TEST GOOGLE BUTTON</p>
+
   <div class="register">
     New user? <a href="register.html">Register here</a>
   </div>
@@ -218,6 +218,13 @@ async function login(){
   } catch(err){
     alert("Server error");
   }
+}
+const params = new URLSearchParams(window.location.search);
+const token = params.get("token");
+
+if(token){
+    localStorage.setItem("token", token);
+    window.location.href = "/index.html";
 }
 </script>
 
