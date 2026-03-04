@@ -1,7 +1,10 @@
-const express = require("express");
+
 const mongoose = require("mongoose");
 const cors = require("cors");
 const careerRoutes = require("./routes/careerRoutes");
+require("dotenv").config();
+
+const express = require("express");
 const session = require("express-session");
 const passport = require("./config/passport");
 require("dotenv").config();
