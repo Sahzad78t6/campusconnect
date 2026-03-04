@@ -138,7 +138,7 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/login.html"
+    failureRedirect: "/register.html"
   }),
   (req, res) => {
     res.redirect("/index.html");

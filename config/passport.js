@@ -12,40 +12,29 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
 
-        let user = await User.findOne({ googleId: profile.id });
+        const email = profile.emails?.[0]?.value;
 
-        // If user already exists
-        if (user) {
-          return done(null, user);
+        let user = await User.findOne({ email });
+
+        if (!user) {
+          user = new User({
+            name: profile.displayName,
+            email: email,
+            googleId: profile.id,
+            password: "google-oauth",
+            role: "user"
+          });
+
+          await user.save();
         }
 
-        // Check if email already registered
-        const existingUser = await User.findOne({
-          email: profile.emails[0].value
-        });
-
-        if (existingUser) {
-          existingUser.googleId = profile.id;
-          await existingUser.save();
-          return done(null, existingUser);
-        }
-
-        // Register new user
-        const newUser = await User.create({
-          name: profile.displayName,
-          email: profile.emails[0].value,
-          googleId: profile.id,
-          password: "google-oauth"
-        });
-
-        done(null, newUser);
+        done(null, user);
 
       } catch (err) {
-        console.log(err);
+        console.log("Google Auth Error:", err);
         done(err, null);
       }
     }
   )
 );
-
 module.exports = passport;
