@@ -12,12 +12,13 @@
     }
 
     body{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-      background:linear-gradient(135deg,#10b981,#059669);
-    }
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:20px;
+  background:linear-gradient(135deg,#10b981,#059669);
+}
 
     .box{
       background:white;
@@ -110,17 +111,14 @@
 
 @media (max-width: 480px) {
 
-  body{
-    padding:20px;
-    height:auto;
-    min-height:100vh;
+  .box{
+   transform: scale(1.05);
   }
 
-  .box{
-    width:100%;
-    padding:30px 20px;
-    border-radius:16px;
+  body{
+    align-items:center;
   }
+
 
   h2{
     font-size:20px;
