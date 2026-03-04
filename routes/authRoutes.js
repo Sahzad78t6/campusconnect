@@ -127,21 +127,19 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { session: false }),
-  (req, res) => {
+  passport.authenticate("google", { failureRedirect: "/register.html" }),
+  async (req, res) => {
 
-    const token = generateToken(req.user._id);
+    const token = jwt.sign(
+      {
+        id: req.user._id,
+        role: req.user.role
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
     res.redirect(`/login.html?token=${token}`);
-  }
-);
-router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/register.html"
-  }),
-  (req, res) => {
-    res.redirect("/index.html");
   }
 );
 module.exports = router;
