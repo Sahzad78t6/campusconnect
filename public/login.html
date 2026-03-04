@@ -138,6 +138,17 @@
   }
 
 }
+.google-btn{
+  width:100%;
+  padding:12px;
+  background:#db4437;
+  color:white;
+  border:none;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+  margin-top:10px;
+}
   </style>
 </head>
 <body>
@@ -148,15 +159,15 @@
 <div class="box">
   <div class="logo">⚡ CampusConnect</div>
   <h2>Welcome Back</h2>
-<a href="/api/auth/google">
-<button style="background:#db4437;">
-Continue with Google
-</button>
-</a>
+
   <input id="email" placeholder="Email">
   <input id="password" type="password" placeholder="Password">
   <button onclick="login()">Login</button>
-
+<a href="/api/auth/google">
+  <button class="google-btn">
+    Continue with Google
+  </button>
+</a>
   <div class="register">
     New user? <a href="register.html">Register here</a>
   </div>
