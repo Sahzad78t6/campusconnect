@@ -536,7 +536,74 @@ video#bgVideo{
   font-weight: 600;
   color: #ffffff;
 }
+/* ============================= */
+/* 📱 MOBILE RESPONSIVE FIX */
+/* ============================= */
 
+@media (max-width: 768px) {
+
+  /* Prevent horizontal scroll */
+  body {
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Sidebar becomes top bar */
+  aside {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+  /* Remove fixed sidebar behavior */
+  main {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  /* Cards full width */
+  .card,
+  .about-card {
+    padding: 20px;
+  }
+
+  /* Marketplace grid single column */
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Team grid single column */
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Modal full width */
+  .modal-content {
+    width: 90%;
+    margin: 80px auto;
+  }
+
+  /* Profile dropdown fix */
+  .profile-dropdown {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Reduce heading size slightly */
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+}
 </style>
 </head>
 
