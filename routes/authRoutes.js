@@ -135,4 +135,8 @@ router.get(
     res.redirect(`/login.html?token=${token}`);
   }
 );
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 module.exports = router;
