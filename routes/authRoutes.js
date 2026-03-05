@@ -137,13 +137,16 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/login.html" }),
   (req, res) => {
 
-    const token = jwt.sign(
-      { id: req.user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+   const token = jwt.sign(
+  { 
+    id: req.user._id,
+    role: req.user.role
+  },
+  process.env.JWT_SECRET,
+  { expiresIn: "1d" }
+);
 
-    res.redirect(`/index.html?token=${token}`);
+    res.redirect(`/login.html?token=${token}`);
   }
 );
 module.exports = router;
