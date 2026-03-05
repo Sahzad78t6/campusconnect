@@ -32,27 +32,35 @@ router.post("/register", async (req,res)=>{
 
 
 // LOGIN
+// LOGIN
 router.post("/login", async (req,res)=>{
   try {
 
     const user = await User.findOne({ email: req.body.email });
+
     if(!user)
       return res.status(400).json({ message: "User not found" });
 
+    // ⭐ ADD THIS HERE
+    if(user.googleId){
+      return res.status(400).json({
+        message: "Please login with Google"
+      });
+    }
+
     const valid = await bcrypt.compare(req.body.password, user.password);
+
     if(!valid)
       return res.status(400).json({ message: "Wrong password" });
 
-    // 👇 KEEP IT HERE
     const token = jwt.sign(
-  { 
-    id: user._id,
-    role: user.role || "user"
-  },
-  process.env.JWT_SECRET,
-  { expiresIn: "1d" }
-);
-
+      {
+        id: user._id,
+        role: user.role || "user"
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
     res.json({ token });
 
@@ -60,7 +68,6 @@ router.post("/login", async (req,res)=>{
     res.status(500).json({ message: "Server error" });
   }
 });
-
 // GET CURRENT USER
 router.get("/me", auth, async (req, res) => {
   const user = await User.findById(req.user.id).select("-password");
