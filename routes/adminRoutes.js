@@ -60,8 +60,9 @@ const token = jwt.sign(
   process.env.JWT_SECRET,
   { expiresIn: "1d" }
 );
-router.get("/dashboard", auth, admin, (req,res)=>{
-    res.json({message:"Welcome Admin"});
+router.get("/dashboard", auth, admin, (req, res) => {
+  console.log(req.user); // ✅ user is attached to req
+  res.json({ message: "Welcome Admin" });
 });
 
 module.exports = router;
