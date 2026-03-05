@@ -52,14 +52,6 @@ router.get("/stats", auth, admin, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-const token = jwt.sign(
-  {
-    id: user._id,
-    role: user.role
-  },
-  process.env.JWT_SECRET,
-  { expiresIn: "1d" }
-);
 router.get("/dashboard", auth, admin, (req, res) => {
   console.log(req.user); // ✅ user is attached to req
   res.json({ message: "Welcome Admin" });

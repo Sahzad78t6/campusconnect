@@ -43,15 +43,11 @@ app.use("/api/career", require("./routes/careerRoutes"));
 app.get("/", (req, res) => {
   res.send("Campus Connect API Running 🚀");
 });
-
-
-app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/events", require("./routes/eventRoutes"));
-app.use("/api/career", require("./routes/careerRoutes"));
+
 app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/api/coding", require("./routes/codingRoutes"));
-app.use("/api/doubts", require("./routes/doubtRoutes"));
-app.use("/api/items", require("./routes/itemRoutes"));  
+
 
 
 app.use("/uploads", express.static("uploads"));
