@@ -15,14 +15,14 @@ passport.use(
         const email = profile.emails[0].value;
 
         let user = await User.findOne({ email });
-
-        if (!user) {
-          user = await User.create({
-  name: profile.displayName,
-  email: email,
-  googleId: profile.id
-});
-        }
+if (!user) {
+  user = await User.create({
+    name: profile.displayName,
+    email: email,
+    googleId: profile.id,
+    role: "user" // Add this default
+  });
+}
 
         return done(null, user);
 
