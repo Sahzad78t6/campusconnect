@@ -6,7 +6,7 @@ const Doubt = require("../models/Doubt");
 const Career = require("../models/Career");
 const auth = require("../middleware/authMiddleware");
 const admin = require("../middleware/adminMiddleware");
-
+const jwt = require("jsonwebtoken");
 // ==============================
 // GET PLATFORM STATS
 // ==============================
