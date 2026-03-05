@@ -8,7 +8,24 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
 
+// get token from URL
+const params = new URLSearchParams(window.location.search);
+const tokenFromURL = params.get("token");
+
+// if token exists → save it
+if(tokenFromURL){
+  localStorage.setItem("token", tokenFromURL);
+
+  // remove token from URL for security
+  window.history.replaceState({}, document.title, "/index.html");
+  if(!localStorage.getItem("token")){
+  window.location.href = "/login.html";
+}
+}
+
+</script>
 <style>
   :root{
   --primary:#6366f1;
