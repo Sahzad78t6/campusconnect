@@ -7,23 +7,29 @@ const admin = require("../middleware/adminMiddleware");
 // =====================================
 // 🧠 POST DOUBT (Logged User)
 // =====================================
-router.post("/", auth, async (req, res) => {
-  try {
-    const doubt = new Doubt({
-      question: req.body.question,
-      user: req.user.id,
-      answers: []
-    });
+const askGemini = require("../utils/askGemini");
 
-    await doubt.save();
-    res.json(doubt);
+router.post("/", auth, async (req,res)=>{
 
-  } catch (err) {
-    res.status(500).json({ message: "Server Error" });
-  }
+  const { question } = req.body;
+
+  const aiAnswer = await askGemini(question);
+
+  const doubt = new Doubt({
+    question,
+    answers: [
+      {
+        text: aiAnswer,
+        user: "AI Assistant",
+        votes: 0
+      }
+    ]
+  });
+
+  await doubt.save();
+
+  res.json(doubt);
 });
-
-
 // =====================================
 // 📚 GET ALL DOUBTS
 // (Answers sorted by votes DESC)
@@ -129,5 +135,23 @@ router.put("/:doubtId/answer/:answerId/pin", auth, admin, async (req, res) => {
   }
 });
 
+const axios = require("axios");
 
+async function askGemini(question) {
+
+  const response = await axios.post(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    {
+      contents: [
+        {
+          parts: [{ text: question }]
+        }
+      ]
+    }
+  );
+
+  return response.data.candidates[0].content.parts[0].text;
+}
+
+module.exports = askGemini;
 module.exports = router;
