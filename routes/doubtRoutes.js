@@ -7,23 +7,13 @@ const admin = require("../middleware/adminMiddleware");
 // =====================================
 // 🧠 POST DOUBT (Logged User)
 // =====================================
-const askGemini = require("../utils/askGemini");
-
 router.post("/", auth, async (req,res)=>{
 
   const { question } = req.body;
 
-  const aiAnswer = await askGemini(question);
-
   const doubt = new Doubt({
     question,
-    answers: [
-      {
-        text: aiAnswer,
-        user: "AI Assistant",
-        votes: 0
-      }
-    ]
+    user: req.user.id
   });
 
   await doubt.save();
